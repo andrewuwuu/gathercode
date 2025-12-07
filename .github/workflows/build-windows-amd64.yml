@@ -3,8 +3,11 @@ name: build-windows-amd64
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -26,10 +29,17 @@ jobs:
           GOARCH: amd64
         run: |
           go mod tidy
+          mkdir dist
           go build -o dist/gather-windows-amd64.exe ./cmd/gather
 
-      - name: Upload artifact
+      - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: gather-windows-amd64
           path: dist/gather-windows-amd64.exe
+
+      - name: Upload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/gather-windows-amd64.exe
