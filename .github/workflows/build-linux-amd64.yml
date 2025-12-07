@@ -23,14 +23,20 @@ jobs:
           go-version: '1.25.x'
           check-latest: true
 
-      - name: Build linux/amd64 binary
+      - name: Tidy modules
+        run: go mod tidy
+
+      - name: Run tests
+        run: go test ./... -v
+
+      - name: Build linux/amd64 (stripped)
         env:
           GOOS: linux
           GOARCH: amd64
+          CGO_ENABLED: 0
         run: |
-          go mod tidy
           mkdir -p dist
-          go build -o dist/gather-linux-amd64 ./cmd/gather
+          go build -ldflags="-s -w" -o dist/gather-linux-amd64 ./cmd/gather
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
