@@ -22,7 +22,7 @@ func WriteAggregatedMarkdown(entries []gather.Entry, outPath string) error {
 	defer outFile.Close()
 	sep := "---------------"
 	for i, e := range entries {
-		if _, err := outFile.WriteString("-- " + e.DisplayPath + "\n"); err != nil {
+		if _, err := outFile.WriteString("// " + e.DisplayPath + "\n"); err != nil {
 			return err
 		}
 		src, err := os.Open(e.AbsPath)
