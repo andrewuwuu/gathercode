@@ -5,7 +5,7 @@
 Each file is written in this format:
 
 ```
--- repo/subfolder/file.go
+## repo/subfolder/file.go
 <file contents>
 ---------------
 ```
