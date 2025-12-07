@@ -1,0 +1,35 @@
+name: build-windows-amd64
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          check-latest: true
+
+      - name: Build windows/amd64 binary
+        env:
+          GOOS: windows
+          GOARCH: amd64
+        run: |
+          go mod tidy
+          go build -o dist/gather-windows-amd64.exe ./cmd/gather
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gather-windows-amd64
+          path: dist/gather-windows-amd64.exe

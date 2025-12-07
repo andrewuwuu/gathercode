@@ -1,0 +1,35 @@
+# Go build artifacts
+/gather
+/dist/
+/bin/
+/build/
+/*.exe
+/*.exe~
+*.test
+*.out
+
+# Go modules cache (not the local module)
+/pkg/mod/
+
+# Coverage
+coverage.out
+*.cov
+
+# Logs and temp
+*.log
+tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Go workspace files
+go.work
+go.work.sum
